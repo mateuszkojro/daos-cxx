@@ -12,15 +12,12 @@
 #include "Errors.h"
 #include "daos_cont.h"
 #include "daos_types.h"
-#include "types.h"
 
 class Pool : public IPool {
  public:
   Pool(UUID pool_uuid);
   Pool(const std::string pool_label);
-  // Pool(Pool&&) = delete;
   Pool(const Pool&) = delete;
-  // Pool& operator=(Pool&&) = delete;
   Pool& operator=(const Pool&) = delete;
   ~Pool();
 
@@ -38,4 +35,4 @@ class Pool : public IPool {
   daos_handle_t pool_handle_;
 };
 
-#endif// !MK_POOL_H
+#endif  // !MK_POOL_H

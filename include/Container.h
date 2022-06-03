@@ -42,6 +42,5 @@ class Container : public IContainer {
 
  private:
   daos_handle_t container_handle_;
-  // std::vector<DAOSObject> objects_;
 };
 #endif// !MK_CONTAINER_H

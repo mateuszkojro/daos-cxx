@@ -13,7 +13,6 @@ class DAOSObject {
   ~DAOSObject();
 
  protected:
-  // FXIME: This handles should be closed
   daos_handle_t object_handle_;
   daos_obj_id_t object_id_;
 };

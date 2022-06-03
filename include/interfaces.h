@@ -17,7 +17,6 @@ struct UnimplementedException : public std::runtime_error
 
 #define MK_UNIMPLEMENTED                                                       \
   do {                                                                         \
-	assert(false && "Unimplemented");                                          \
 	throw UnimplementedException(__PRETTY_FUNCTION__);                         \
   } while (false)
 

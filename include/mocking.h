@@ -11,8 +11,7 @@
 
 // #define LOG_EVENT(x) __func__
 
-enum MockDAOSOperationType
-{
+enum MockDAOSOperationType {
   UNDEFINED,
   POOL_CONNECT,
   CONT_CREATE,
@@ -52,9 +51,6 @@ class MockDAOS {
 
   void daos_cont_create_cpp() {
 	logger_->log(__PRETTY_FUNCTION__, CONT_CREATE);
-
-
-  
   }
 
   void daos_cont_destroy_cpp() {
@@ -113,7 +109,6 @@ class MockDAOS {
 
  private:
   IDAOSLog* logger_;
-  // std::ostream& output_stream;
 };
 
 class MockDAOSObj {
@@ -127,4 +122,4 @@ class MockDAOSObj {
   std::weak_ptr<MockDAOS> mock_daos_;
 };
 
-#endif// !MK_MOCK_H
+#endif  // !MK_MOCK_H
