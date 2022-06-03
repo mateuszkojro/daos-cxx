@@ -5,12 +5,20 @@
 #include "daos_types.h"
 #include <cassert>
 #include <cstddef>
+#include <exception>
 #include <memory>
+#include <stdexcept>
+
+struct UnimplementedException : public std::runtime_error
+{
+  UnimplementedException(std::string function_name)
+	  : std::runtime_error("Function: " + function_name + "not implemented") {}
+};
 
 #define MK_UNIMPLEMENTED                                                       \
   do {                                                                         \
 	assert(false && "Unimplemented");                                          \
-	throw std::runtime_error(__PRETTY_FUNCTION__);                         \
+	throw UnimplementedException(__PRETTY_FUNCTION__);                         \
   } while (false)
 
 class IKeyValue {
@@ -57,4 +65,4 @@ class IPool {
   virtual ~IPool() = default;
 };
 
-#endif// !MK_INTERFACES
+#endif  // !MK_INTERFACES
