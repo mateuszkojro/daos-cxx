@@ -1,5 +1,8 @@
 #include "Container.h"
 #include "KeyValue.h"
+#include "daos_obj.h"
+#include "daos_types.h"
+#include <cstdint>
 #include <memory>
 #include <string>
 
@@ -28,15 +31,26 @@ Container::~Container() {
   }
 }
 
-KeyValuePtr Container::create_kv_object() {
+// TODO: High 32bits are not used while generating OIDs
+uint64_t generate_oid_low() {
+  static uint64_t counter = 0;
+  return counter++;
+}
+uint64_t generate_oid_high() {
+  uint64_t counter = 0xffffffffUL << 32;
+  return counter;
+}
 
-  /**
-   * TODO:
-   * ID of an object, 128 bits
-   * The high 32-bit of daos_obj_id_t::hi are reserved for DAOS, the rest is
-   * provided by the user and assumed to be unique inside a container.
-   */
-  daos_obj_id_t object_id;
+// TODO: Optimisations with placment of the objects can be made using OIDs
+daos_obj_id_t generate_oid() {
+  daos_obj_id_t object_id = {0};
+  object_id.hi = generate_oid_high();
+  object_id.lo = generate_oid_low();
+  return object_id;
+}
+
+KeyValuePtr Container::create_kv_object() {
+  daos_obj_id_t object_id = generate_oid();
 
   // TODO: Look at the cid parameter in the documentation it could speed things
   // up
