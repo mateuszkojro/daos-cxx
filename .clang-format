@@ -43,7 +43,7 @@ CompactNamespaces: false
 ContinuationIndentWidth: 4
 IndentCaseLabels: true
 IndentPPDirectives: None
-IndentWidth: 4
+IndentWidth: 2
 KeepEmptyLinesAtTheStartOfBlocks: true
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
@@ -68,4 +68,4 @@ SpacesInContainerLiterals: false
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 TabWidth: 4
-# UseTab: ForContinuationAndIndentation
+UseTab: ForContinuationAndIndentation

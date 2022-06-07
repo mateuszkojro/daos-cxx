@@ -6,6 +6,7 @@ project(daos-cxx
 )
 
 option(WITH_DAOS "Should the library be linked against libdaos" "ON")
+# TODO: FIx daos installation path setting
 option(DAOS_DIR "Location of installed libdaos - defaults to submodule")
 option(WITH_OPENTELEMETRY "Should the library be linked against opentelemetry-cpp and zipkin" "OFF")
 
