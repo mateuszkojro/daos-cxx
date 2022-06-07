@@ -22,6 +22,10 @@
 #define CELL_SIZE 1024
 #define CHUNK_SIZE 1024 * 100
 
+// TODO: Make array chunk and cell sizes variable
+
+// TODO: Possible performance improvments while using ranges and scatter gather
+// lists while using the `Array` interface
 class Array : public DAOSObject, public IArray {
  public:
   Array(daos_handle_t array_handle, daos_obj_id_t object_id);

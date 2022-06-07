@@ -1,9 +1,10 @@
 #include "Array.h"
+#include "interfaces.h"
 
 Array::Array(daos_handle_t array_handle, daos_obj_id_t object_id)
 	: DAOSObject(array_handle, object_id) {}
 
-// TODO: There is a lot of optimisation that can be done with array acceses
+
 void Array::write_raw(size_t idx, char* buffer, daos_event_t* event) {
   // TODO: check bounds here
   daos_array_iod_t ranges_descriptor;// List of idx ranges
@@ -32,9 +33,7 @@ void Array::write_raw(size_t idx, char* buffer, daos_event_t* event) {
 							  &scatter_gather_list, event));
 }
 
-// TODO: There is a lot of optimisation that can be done with array acceses
 void Array::read_raw(size_t idx) {
-  // assert(false && "This is not implemented");
 
   std::array<char, CELL_SIZE> buffer;
   daos_array_iod_t ranges_descriptor;// List of idx ranges
