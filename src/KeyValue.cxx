@@ -1,4 +1,5 @@
 #include "KeyValue.h"
+#include "interfaces.h"
 
 KeyValue::KeyValue(daos_handle_t object_handle, daos_obj_id_t object_id)
 	: DAOSObject(object_handle, object_id) {}
@@ -21,6 +22,7 @@ void KeyValue::change_value_raw() {
 }
 
 void KeyValue::read_raw(const char* key) {
+  MK_UNIMPLEMENTED;
   size_t buffer_size = 128;
   char value[128];
   DAOS_CHECK(daos_kv_get(object_handle_, DAOS_TX_NONE, 0, key, &buffer_size,
