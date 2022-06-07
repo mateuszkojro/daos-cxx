@@ -17,7 +17,6 @@ add_library(daos-cxx
     include/Pool.h src/Pool.cxx
     include/Container.h src/Container.cxx
     include/Errors.h
-    include/types.h
     include/EventQueue.h src/EventQueue.cxx
     include/KeyValue.h src/KeyValue.cxx
     include/DAOSObject.h src/DAOSObject.cxx
