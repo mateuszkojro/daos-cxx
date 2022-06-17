@@ -17,11 +17,11 @@ EventQueue::~EventQueue() {
 }
 
 void EventQueue::wait() {
-  auto* event = pool();
-  while (event != nullptr) { event = pool(); }
+  auto* event = poll();
+  while (event != nullptr) { event = poll(); }
 }
 
-daos_event_t* EventQueue::pool() {
+daos_event_t* EventQueue::poll() {
   const int events_to_pool = 1;
   daos_event_t* event[events_to_pool];
 
@@ -54,5 +54,10 @@ daos_event_t* EventQueue::get_event() {
   if (inflight_ < max_inflight_) {
 	return add_event();
   }
-  return pool();
+  auto start = std::chrono::high_resolution_clock::now();
+  daos_event_t* event = poll();
+  auto end = std::chrono::high_resolution_clock::now();
+  auto time = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+  waiting_time_.fetch_add(time);  
+  return event;
 }
