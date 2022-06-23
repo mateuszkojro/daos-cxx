@@ -5,11 +5,12 @@ project(daos-cxx
         LANGUAGES C CXX
 )
 
+# TODO: Add option to specify daos install location
 option(WITH_DAOS "Should the library be linked against libdaos" "ON")
-# TODO: FIx daos installation path setting
-option(DAOS_DIR "Location of installed libdaos - defaults to submodule")
 option(WITH_OPENTELEMETRY "Should the library be linked against opentelemetry-cpp and zipkin" "OFF")
 
+set(DAOS_DIR ${PROJECT_SOURCE_DIR}/lib/daos/install/)
+message("daos_dir: " ${DAOS_DIR})
 add_library(daos-cxx
     # Implemented interfaces
     include/interfaces.h
@@ -24,12 +25,13 @@ add_library(daos-cxx
     include/Array.h src/Array.cxx
     include/UUID.h src/UUID.cxx
 
+# TODO: Add option to use mocking
     # Mocking
-    include/DAOSZipkinLog.h
-    include/mocking.h
-    include/MockPool.h
-    include/MockContainer.h
-    include/MockKeyValue.h
+    # include/DAOSZipkinLog.h
+    # include/mocking.h
+    # include/MockPool.h
+    # include/MockContainer.h
+    # include/MockKeyValue.h
 )
 
 set(DAOS_CXX_INCLUDES include/)

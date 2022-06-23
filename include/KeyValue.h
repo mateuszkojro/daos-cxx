@@ -25,7 +25,7 @@ class KeyValue : public DAOSObject, public IKeyValue {
 
   void write_raw(const char* key, const char* value, size_t value_size,
 				 daos_event_t* event = NULL);
-  void read_raw(const char* key);
+  size_t read_raw(const char* key, char* buffer, size_t size, daos_event_t* event=NULL);
 
   void change_value_raw();
 

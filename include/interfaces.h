@@ -25,7 +25,7 @@ class IKeyValue {
   virtual void write_raw(const char* key, const char* value, size_t value_size,
 						 daos_event_t* event = NULL) = 0;
 
-  virtual void read_raw(const char* key) = 0;
+  virtual size_t read_raw(const char* key, char* buffer, size_t size, daos_event_t* event=NULL) = 0;
   virtual ~IKeyValue() = default;
 };
 

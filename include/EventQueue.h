@@ -29,8 +29,10 @@ class EventQueue {
   daos_event_t* get_event();
   void wait();
 
+  std::atomic_size_t waiting_time_ {0};
+
  private:
-  daos_event_t* pool();
+  daos_event_t* poll();
   daos_event_t* add_event();
   std::atomic_size_t inflight_ {0};
   const size_t max_inflight_;
