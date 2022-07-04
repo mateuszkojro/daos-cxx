@@ -8,9 +8,15 @@ project(daos-cxx
 # TODO: Add option to specify daos install location
 option(WITH_DAOS "Should the library be linked against libdaos" "ON")
 option(WITH_OPENTELEMETRY "Should the library be linked against opentelemetry-cpp and zipkin" "OFF")
+option(EXTERNAL_DAOS_DIR "Installed DAOS directory" "OFF")
 
-set(DAOS_DIR ${PROJECT_SOURCE_DIR}/lib/daos/install/)
-message("daos_dir: " ${DAOS_DIR})
+if(${EXTERNAL_DAOS_DIR} STREQUAL "OFF")
+    set(DAOS_DIR ${PROJECT_SOURCE_DIR}/lib/daos/install/)    
+else()
+    set(DAOS_DIR ${EXTERNAL_DAOS_DIR})    
+endif()
+
+message("DAOS directory set to: " ${DAOS_DIR})
 add_library(daos-cxx
     # Implemented interfaces
     include/interfaces.h
@@ -37,6 +43,18 @@ add_library(daos-cxx
 set(DAOS_CXX_INCLUDES include/)
 
 if(${WITH_DAOS})
+  if(${EXTERNAL_DAOS_DIR} STREQUAL "OFF")
+    message(CHECK_START "Compiling libdaos: ")
+    include(ProcessorCount)
+    find_program(SCONS_EXECUTABLE NAMES scons-3 scons REQUIRED)
+    ProcessorCount(CORE_COUNT)
+    message("Found scons-3 executable: ${SCONS_EXECUTABLE}")
+    execute_process(COMMAND ${SCONS_EXECUTABLE} ". --build-deps=yes --config=force -j ${CORE_COUNT}"
+                  WORKING_DIRECTORY ./lib/daos
+                  COMMAND_ERROR_IS_FATAL ANY
+                )
+    message(CHECK_PASS "done")
+  endif()
   target_include_directories(daos-cxx PUBLIC ${DAOS_DIR}/include/ ${DAOS_CXX_INCLUDES})
   target_link_libraries(daos-cxx PUBLIC 
       ${DAOS_DIR}/lib64/libdaos.so 
@@ -44,7 +62,8 @@ if(${WITH_DAOS})
       ${DAOS_DIR}/lib64/libdaos_common.so 
       uuid
   )
-elseif(${WITH_OPENTELEMETRY})
+endif()
+if(${WITH_OPENTELEMETRY})
     set(opentelemetry ./lib/opentelemetry-cpp)
     add_subdirectory(${opentelemetry})
     set(OPENTELEMETRY_LIBS PUBLIC ${CMAKE_THREAD_LIBS_INIT} opentelemetry_trace opentelemetry_exporter_zipkin_trace)
@@ -53,6 +72,10 @@ elseif(${WITH_OPENTELEMETRY})
         ${OPENTELEMETRY_LIBS}
         uuid
     )
+endif()
+
+if(NOT ${WITH_DAOS})
+	add_compile_definitions(DAOS_CXX_MOCK)
 endif()
 
 
